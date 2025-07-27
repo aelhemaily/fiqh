@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دراسة وفقه - فضائل الأعمال</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Amiri', serif; /* Arabic font for better readability */
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .header {
+            background-color: #4CAF50; /* Green header */
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        .nav-link {
+            padding: 0.75rem 1.5rem;
+            background-color: #66BB6A; /* Lighter green for nav links */
+            color: white;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        .nav-link:hover {
+            background-color: #4CAF50;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .hadith-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #28a745; /* Darker green for Hadith titles */
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .hadith-text-arabic {
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            text-align: right;
+        }
+        .hadith-text-translation {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+            text-align: left;
+            border-top: 1px dashed #ccc;
+            padding-top: 1rem;
+            direction: ltr; /* Ensure left-to-right direction for English */
+        }
+        .hadith-number {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #007bff; /* Blue for Hadith numbers */
+            text-align: right; /* Ensures it's on the right */
+            margin-bottom: 0.5rem; /* Adjusted margin */
+        }
+        .hadith-isnad { /* New style for isnad */
+            font-size: 0.85rem;
+            color: #004d00; /* Darker green for isnad */
+            text-align: left; /* Position at far left */
+            margin-top: 0.5rem;
+            direction: rtl; /* Arabic text direction */
+            font-weight: 500; /* Slightly bolder for visibility */
+        }
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+        .scroll-to-hadith-form {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #e9ecef;
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: flex-end; /* Align to top right */
+            align-items: center;
+            gap: 1rem;
+        }
+        .scroll-to-hadith-form label {
+            white-space: nowrap; /* Prevent label from wrapping */
+        }
+        .scroll-to-hadith-form input[type="number"] {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ced4da;
+            width: 80px;
+            text-align: center;
+        }
+        .scroll-to-hadith-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .scroll-to-hadith-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* New styles for translation toggle */
+        .translation-toggle {
+            cursor: pointer;
+            padding-top: 0.5rem;
+            border-top: 1px dashed #ccc;
+            margin-top: 1rem;
+        }
+        .click-to-view {
+            font-size: 0.95rem;
+            color: #007bff;
+            text-align: center;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .click-to-view:hover {
+            color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Pagination styles */
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .pagination-button {
+            background-color: #28a745; /* Darker green */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+        .pagination-button:hover:not(:disabled) {
+            background-color: #218838; /* Even darker green on hover */
+        }
+        .pagination-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .page-number {
+            padding: 0.5rem 0.8rem;
+            border-radius: 0.5rem;
+            background-color: #e9ecef;
+            color: #343a40;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .page-number.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .page-number:hover:not(.active) {
+            background-color: #d0d0d0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .nav-link {
+                width: calc(100% - 1rem); /* Full width minus margin */
+                margin: 0.5rem 0;
+            }
+            .hadith-title {
+                font-size: 1.5rem;
+            }
+            .hadith-text-arabic {
+                font-size: 1.1rem;
+            }
+            .hadith-text-translation {
+                font-size: 0.9rem;
+            }
+            .scroll-to-hadith-form {
+                justify-content: center; /* Center on small screens */
+                flex-wrap: wrap; /* Allow wrapping */
+            }
+            .pagination-controls {
+                gap: 0.25rem;
+            }
+            .pagination-button, .page-number {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1 class="text-4xl font-bold">دراسة وفقه</h1>
+        <p class="text-xl mt-2">موسوعة الأحاديث النبوية الشريفة</p>
+    </div>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="flex flex-wrap justify-center mb-8">
+            <a href="index.html" class="nav-link">فهرس المواضيع</a>
+            <a href="fadael.html" class="nav-link">فضائل الأعمال</a>
+            <!-- Add more links as pages are added -->
+        </nav>
+
+        <!-- Fadaa'el Al-A'mal Section -->
+        <section id="fadaaelaamal" class="card mt-8">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">فضائل الأعمال</h2>
+
+            <div class="scroll-to-hadith-form">
+                <label for="hadith-number-input" class="text-lg">الانتقال إلى حديث رقم:</label>
+                <input type="number" id="hadith-number-input" min="1" max="59" placeholder="الرقم">
+                <button onclick="scrollToHadith()">اذهب</button>
+            </div>
+
+            <div id="pagination-controls-top" class="pagination-controls"></div>
+
+    <div id="hadith-list">
+        </div>
+
+    <div id="pagination-controls-bottom" class="pagination-controls"></div>
+
+    <div class="search-section">
+        <input type="number" id="hadith-number-input" placeholder="ادخل رقم الحديث">
+        <button id="go-to-hadith-button">الانتقال للحديث</button>
+    </div>
+
+        </section>
+
+        <div class="footer">
+            <p>&copy; 2024 دراسة وفقه. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+
+    <script>
+        // Array to hold all Hadith data
+        const hadithsData = [
+            {
+                id: 1,
+                title: "فضل النية في الأعمال",
+                arabic: `عَنِ ابْنِ عَبَّاسٍ، عَنِ النَّبِيِّ صلى الله عليه وسلم فِيمَا يَرْوِي عَنْ رَبِّهِ عَزَّ وَجَلَّ قَالَ: "إِنَّ اللَّهَ كَتَبَ الْحَسَنَاتِ وَالسَّيِّئَاتِ، ثُمَّ بَيْنَ ذَلِكَ، فَمَنْ همَّ بِحَسَنَةٍ فَلَمْ يَعْمَلُهَا، كَتَبَهَا اللَّهُ لَهُ عِنْدَهُ حَسَنَةً كَامِلَةً، فَإِنْ هُوَ هَمَّ بِهَا فَعَمِلَهَا كَتَبَهَا اللَّهُ لَهُ عِنْدَهُ عَشْرَ حَسَنَاتٍ إِلَى سَبْعِمِائَةِ ضِعْفٍ إِلَى أَضْعَافٍ كَثِيرَةٍ، وَمَنْ هُمْ بِسَيِّئَةٍ فَلَمْ يَعْمَلْهَا، كَتَبَهَا اللَّهُ لَهُ عِنْدَهُ حَسَنَةً كَامِلَةً، فَإِنْ هُوَ هَمَّ بِهَا فَعَمِلَهَا كَتَبَهَا اللَّهُ لَهُ سَيِّئَةً وَاحِدَةً".`,
+                isnad: `متفق عليه [البخاري (141) ، مسلم (1201)]`,
+                translation: `Allah ordered (the appointed angels over you) that the good and the bad deeds be written, and He then showed (the way) how (to write). If somebody intends to do a good deed and he does not do it, then Allah will write for him a full good deed (in his account with Him); and if he intends to do a good deed and actually did it, then Allah will write for him (in his account) with Him (its reward equal) from ten to seven hundred times to many more times: and if somebody intended to do a bad deed and he does not do it, then Allah will write a full good deed (in his account) with Him, and if he intended to do it (a bad deed) and actually did it, then Allah will write one bad deed (in his account).`
+            },
+            {
+                id: 2,
+                title: "فضل الإسلام والهجرة والحج",
+                arabic: `حَضَرْنَا عَمْرَو بْنَ الْعَاصِ وَهُوَ فِي سِيَاقَةِ الْمَوْتِ . فَبَكَى طويلاً وَحَوَّلَ وَجْهَهُ إِلَى الْجِدَارِ فَجَعَلَ ابْنُهُ يَقُولُ يَا أَبَتَاهُ أَمَا بَشَّرَكَ رَسُولُ اللهِ صلى الله عليه وسلم بِكَذَا أَمَا بَشَّرَكَ رَسُولُ اللَّهِ صلى الله عليه وسلم بِكَذَا قَالَ فَأَقْبَلَ بِوَجْهِهِ . فَقَالَ إِنَّ أَفْضَلَ مَا نُعِدُّ شَهَادَةُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ إِنِّي قَدْ كُنْتُ عَلَى أَطْبَاقٍ ثَلاثَ لَقَدْ رَأَيْتُنِي وَمَا أَحَدٌ أَشَدَّ بُغْضًا لِرَسُولِ اللَّهِ صلى الله عليه وسلم مِنِّي وَلَا أَحَبَّ إِلَيَّ أَنْ أَكُونَ قَدِ اسْتَمْكَنْتُ مِنْهُ فَقَتَلْتُهُ فَلَوْ مُت عَلَى تِلْكَ الْحَالِ لَكُنتُ مِنْ أَهْلِ النَّارِ فَلَمَّا جَعَلَ اللَّهُ الإِسْلَامَ فِي قَلْبِي أَتَيْتُ النَّبِيَّ صلى الله عليه وسلم فَقُلْتُ ابْسُطُ يَمِينَكَ فَلَأُبَايِعُكَ ، فَبَسَطَ يَمِينَهُ - قَالَ - فَقَبَضْتُ يَدِي . قَالَ " مَا لَكَ يَا عَمْرُو " . قَالَ قُلْتُ أَرَدْتُ أَنْ أَشْتَرِطَ . قَالَ " تَشْتَرِطُ بِمَاذَا " . قُلْتُ أَنْ يُغْفَرَ لِي . قَالَ " أَمَا عَلِمْتَ أَنَّ الإِسْلَامَ يَهْدِمُ مَا كَانَ قَبْلَهُ وَأَنَّ الْهِجْرَةَ تَهْدِمُ مَا كَانَ قَبْلَهَا وَأَنَّ الْحَجَّ يَهْدِمُ مَا كَانَ قَبْلَهُ "`,
+                isnad: `رواه مسلم [121]`,
+                translation: `We went to Amr b. al-As and he was about to die. He wept for a long time and turned his face towards the wall. His son said: Did the Messenger of Allah (may peace be upon him) not give you tidings of this? Did the Messenger of Allah (PBUH) not give you tidings of this? He (the narrator) said: He turned his face (towards the audience) and said: The best thing which we can count upon is the testimony that there is no god but Allah and that Muhammad is the Messenger of Allah. Verily I have passed through three phases. (The first one) in which I found myself averse to none else more than I was averse to the Messenger of Allah (PBUH) and there was no other desire stronger in me than the one that I should overpower him and kill him. Had I died in this state, I would have been definitely one of the denizens of Fire. When Allah instilled the love of Islam in my heart, I came to the Apostle(PBUH) and said: Stretch out your right hand so that I may pledge my allegiance to you. He stretched out his right hand, I withdrew my hand, He (the Holy Prophet) said: What has happened to you, O 'Amr? I replied: I intend to lay down some condition. He asked: What condition do you intend to put forward? I said: I should be granted pardon. He (the Holy Prophet) observed: Are you not aware of the fact that Islam wipes out all the previous (misdeeds)? Verily migration wipes out all the previous (misdeeds), and verily the pilgrimage wipes out all the (previous) misdeeds.`
+            },
+            {
+                id: 3,
+                title: "فضل الشهادتين",
+                arabic: `عَنِ ابْنِ عَبَّاسٍ، عَنِ النَّبِيِّ صلى الله عليه وسلم فِيمَا يَرْوِي عَنْ رَبِّهِ عَزَّ وَجَلَّ قَالَ: قَالَ: "إِنَّ اللَّهَ كَتَبَ الْحَسَنَاتِ وَالسَّيِّئَاتِ، ثُمَّ بَيَّنَ ذَلِكَ، فَمَنْ هُم بِحَسَنَةٍ فَلَمْ يَعْمَلُهَا، كَتَبَهَا اللَّهُ لَهُ عِنْدَهُ حَسَنَةً كَامِلَةً، فَإِنْ هُوَ هَمَّ بِهَا فَعَمِلَهَا كَتَبَهَا اللَّهُ لَهُ عِنْدَهُ عَشْرَ حَسَنَاتٍ إِلَى سَبْعِمِائَةِ ضِعْفٍ إِلَى أَضْعَافٍ كَثِيرَةٍ، وَمَنْ هُمْ بِسَيِّئَةٍ فَلَمْ يَعْمَلْهَا، كَتَبَهَا اللَّهُ لَهُ عِنْدَهُ حَسَنَةً كَامِلَةً، فَإِنْ هُوَ هَمَّ بِهَا فَعَمِلَهَا كَتَبَهَا اللَّهُ لَهُ سَيِّئَةً وَاحِدَةً".`,
+                isnad: `متفق عليه [البخاري (141) ، مسلم (1201)]`,
+                translation: `If anyone testifies that there is no god but God alone, who has no partner, that Muhammad is His servant and messenger, that Jesus is God's servant and messenger, the son of His handmaid, His word which he cast into Mary and a spirit from Him, and that paradise and hell are real, God will cause him to enter paradise no matter what he has done.`
+            },
+            {
+                id: 4,
+                title: "فضل كلمة التوحيد",
+                arabic: `وَعَنْ أَبِي ذَرٍّ رَضِيَ اللَّهُ عَنْهُ قَالَ أَتَيْتُ النَّبِيَّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ وَعَلَيْهِ ثَوْبٌ أَبْيَضُ وَهُوَ نَائِمٌ ثُمَّ أَتَيْتُهُ وَقَدِ اسْتَيْقَظَ فَقَالَ: «مَا مِنْ عَبْدٍ قَالَ لَا إِلَهَ إِلَّا اللَّهُ ثُمَّ مَاتَ عَلَى ذَلِكَ إِلَّا دَخَلَ الْجَنَّةَ قُلْتُ وَإِنْ زَنَى وَإِنْ سَرَقَ قَالَ وَإِنْ زَنَى وَإِنْ سَرَقَ قُلْتُ وَإِنْ زَنَى وَإِنْ سَرَقَ قَالَ وَإِنْ زَنَى وَإِنْ سَرَقَ قُلْتُ وَإِنْ زَنَى وَإِنْ سَرَقَ قَالَ وَإِنْ زَنَى وَإِنْ سَرَقَ عَلَى رَغْمِ أَنْفِ أَبِي ذَرٍّ »`,
+                isnad: `متفق عليه`,
+                translation: `I came to the Prophet and found him asleep under a white sheet. When I came back to him after he had awakened he said, "If anyone says there is no god but God and dies in that belief, he will enter paradise." I asked, "Even if he commits fornication and even if he steals?" He replied, "Even if he commits fornication and even if he steals." I asked, "Even if he commits fornication and even if he steals?" He replied, "Even if he commits fornication and even if he steals." I asked, "Even if he commits fornication and even if he steals?" He replied, "Even if he commits fornication and even if he steals, in spite of Abu Dharr."`
+            },
+            {
+                id: 5,
+                title: "فضل الإيمان وكلمة التوحيد",
+                arabic: `" يَخْرُجُ مِنَ النَّارِ مَنْ قَالَ لَا إِلَهَ إِلا اللَّهُ، وَفِي قَلْبِهِ وَزْنُ شَعِيرَةٍ مِنْ خَيْرٍ ، وَيَخْرُجُ مِنَ النَّارِ مَنْ قَالَ لَا إِلَهَ إِلَّا اللَّهُ، وَفِي قَلْبِهِ وَزْنُ بُرَّةٍ مِنْ خَيْرٍ، وَيَخْرُجُ مِنَ النَّارِ مَنْ قَالَ لَا إِلَهَ إِلَّا اللَّهُ، وَفِي قَلْبِهِ وَزْنُ ذَرَّةٍ مِنْ خَيْرٍ "`,
+                isnad: `متفق عليه`,
+                translation: `Whoever said "None has the right to be worshipped but Allah and" has in his heart good (faith) equal to the weight of a barley grain will be taken out of Hell. And whoever said: "None has the right to be worshipped but Allah and has in his heart good (faith) equal to the weight of a wheat grain will be taken out of Hell. And whoever said, "None has the right to be worshipped but Allah and has in his heart "good (faith) equal to the weight of an atom will be taken out of Hell."`
+            },
+            {
+                id: 6,
+                title: "فضل حب النبي صلى الله عليه وسلم",
+                arabic: `لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى أَكُونَ أَحَبَّ إِلَيْهِ مِنْ وَالِدِهِ وَوَلَدِهِ وَالنَّاسِ أَجْمَعِينَ).`,
+                isnad: `متفق عليه [البخاري (١٥)، مسلم (٤٤)]`,
+                translation: `None of you believes till I am dearer to him than his father, his child, (and all mankind." (Bukhari and Muslim)`
+            },
+            {
+                id: 7,
+                title: "فضل التفقه في الدين",
+                arabic: `عَنْ مُعَاوِيَةَ قَالَ: سَمِعْتُ النَّبِيَّ الله يَقُولُ: (مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُفَقِّهُهُ فِي الدِّينِ).`,
+                isnad: `متفق عليه [البخاري (٧١)، مسلم (١٠٣٧)].`,
+                translation: `Mu'awiyah reported: The Messenger of Allah, peace and blessings be upon him, said: If Allah intends goodness for someone, he gives him understanding of the religion.`
+            },
+            {
+                id: 8,
+                title: "فضل طلب العلم",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ قَالَ: قَالَ رَسُولُ اللهِ الله : مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الجَنَّةِوَمَا ، اجْتَمَعَ قَوْمٌ فِي بَيْتٍ مِنْ بُيُوتِ اللَّهِ يَتْلُونَ كِتَابَ اللَّهِ وَيَتَدَارَسُونَهُ بَيْنَهُمْ، إِلَّا نَزَلَتْ عَلَيْهِمُ السَّكِينَةُ، وَغَشِيَتُهُمُ الرَّحْمَةُ، وَحَفَّتْهُمُ المَلَائِكَةُ، وَذَكَرَهُمُ اللَّهُ فِيمَنْ عِنْدَهُ، وَمَنْ بَطْأَ بِهِ عَمَلُهُ لَمْ يُسْرِعُ بِهِ نسبه).`,
+                isnad: `رواه مسلم [مسلم (٢٦٩٩)].`,
+                translation: `Abu Huraira reported: The Messenger of Allah, peace and blessings be upon him, said: Whoever travels a path in search of knowledge, Allah will make easy for him a path to Paradise. People do not gather in the houses of Allah, reciting the book of Allah and studying it together, but that tranquility will descend upon them, mercy will cover them, angels will surround them, and Allah will mention them to those near him. And whoever is slowed down by his deeds will not be hastened by his lineage."`
+            },
+            {
+                id: 9,
+                title: "فضل هداية الناس",
+                arabic: `عَنْ سَهْلِ بْنِ سَعْدٍ ، أَنَّ رَسُولَ اللَّهِ الله قَالَ لِعَلِيِّ بْنِ أَبِي طَالِبٍ: فَوَاللَّهِ لَأَنْ يَهْدِيَ اللَّهُ بِكَ رَجُلًا وَاحِدًا، خَيْرٌ لَكَ مِنْ أَنْ يَكُونَ لَكَ حُمْرُ النَّعْم).`,
+                isnad: `متفق عليه [البخاري (٤٢١٠)، مسلم (٢٤٠٦)].`,
+                translation: `Sahl bin Sa'd (May Allah be pleased with him) reported: The Prophet (PBUH) said to 'Ali (May Allah be pleased with him), "By Allah, if a single person is guided by Allah through you, it will be better for you than a whole lot of red camels."`
+            },
+            {
+                id: 10,
+                title: "فضل الدلالة على الخير",
+                arabic: `عَن أَبي مَسْعُودِ الْأَنْصَارِي قَالَ جَاءَ رَجُلٌ إِلَى النَّبِيِّ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ فَقَالَ إِنِّي أُبْدِعْ بِي فَاحْمِلْنِي فَقَالَ مَا عِنْدِي فَقَالَ رَجُلٌ يَا رَسُولَ اللَّهِ أَنَا أَدُلُّهُ عَلَى مَنْ يَحْمِلُهُ فَقَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: «مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مثل أجر فاعله» .`,
+                isnad: `رواه مسلم`,
+                translation: `Abu Mas'ud al-Ansari told of a man who came to the Prophet(PBUH) and said, "My camel has become jaded, so give me a mount." On his replying that he had none, a man said, "Messenger of Allah, I can guide him to one who will give him a mount." Allah's Messenger then said, "He who guides to what is good will have a reward equivalent to that of him who does it."`
+            },
+            {
+                id: 11,
+                title: "فضل الأعمال التي لا تنقطع بعد الموت",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ أَنَّ رَسُولَ اللهِ الله قَالَ: إِذَا مَاتَ الإِنْسَانُ انْقَطَعَ عَنْهُ عَمَلُهُ إِلَّا مِنْ ثَلَاثَةٍ إِلَّا مِنْ صَدَقَةٍ جَارِيَةٍ، أَوْ عِلْمٍ يُنْتَفَعُ بِهِ، أَوْ وَلَدٍ صَالِحٍ يَدْعُو لَهُ).`,
+                isnad: `رواه مسلم [1631]`,
+                translation: `Abu Huraira reported: The Messenger of Allah, peace and blessings be upon him, said: When the human being dies, his deeds end except for three: ongoing charity, beneficial knowledge, or a righteous child who prays for him.`
+            },
+            {
+                id: 12,
+                title: "فضل الوضوء وكثرة الخطى إلى المساجد",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ ، أَنَّ رَسُولَ اللهِ الله قَالَ: (أَلَا أَدُلُّكُمْ عَلَى مَا يَمْحُو اللَّهُ بِهِ الخَطَايَاوَيَرْفَعُ ، بِهِ الدَّرَجَاتِ ؟ قَالُوا: بَلَى يَا رَسُولَ اللَّهِ، قَالَ: إِسْبَاغُ الْوُضُوءِ عَلَى المَكَارِهِ، وَكَثْرَةُ الخُطَا إِلَى الْمَسَاجِدِ، وَانْتِظَارُ الصَّلَاةِ بَعْدَ الصَّلَاةِ، فَذَلِكُمُ الرِّبَاط).`,
+                isnad: `رواه مسلم [251]`,
+                translation: `Abu Huraira reported Allah's Messenger (PBUH) as saying, "Shall I not guide you to something for which Allah blots out sins and raises men's ranks?" When his hearers expressed their desire that he should tell them, he said, "Performing complete ablution although circumstances make it difficult, travelling far to mosques, and looking expectantly to the next time of prayer after prayers have been said. That is the defence of the frontier.`
+            },
+            {
+                id: 13,
+                title: "فضل الوضوء في محو الذنوب",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ أَنَّ رَسُولَ اللَّهِ الله قَالَ: إِذا تَوَضَّأَ العَبْدُ المُسْلِمُ، أَو المُؤْمِنُ، فَغَسَلَ وَجْهَهُ، خَرَجَ مِنْ وَجْهِهِ كُلُّ خَطِيئَةٍ نَظَرَ إِلَيْهَا بِعَيْنَيْهِ مَعَ المَاءِ، أَوْ مَعَ آخِرِ قَطْرِ المَاءِ، فَإِذَا غَسَلَ يَدَيْهِ، خَرَجَ مِنْ يَدَيْهِ كُلُّ خَطِيئَةٍ كَانَ بَطَيَّتُهَا يَدَاهُ مَعَ المَاءِ، أَوْ مَع آخِرِ قَطْرِ المَاءِ، فَإِذَا غَسَلَ رِجْلَيْهِ، خَرَجَتْ كُلُّ خَطِيئَةٍ مَشَتُهَا رِجْلَاهُ مَعَ المَاءِ، أَوْ مَعَ آخِرِ قَطْرِ المَاءِ، حَتَّى يَخْرُجَ نَقِيًّا مِنَ الذُّنُوبِ).`,
+                isnad: `رواه مسلم [244]`,
+                translation: `Abu Huraira reported Allah's Messenger (PBUH) as saying, "When a Muslim, or a believer, washes his face in the course of ablution, every sin he contemplated with his eyes will come forth from his face along with the water, or with the last drop of water; when he washes his hands, every sin they wrought will come forth from his hands with water, or with the last drop of water; and when he washes his feet, every sin towards which his feet have walked will come out with the water, or with the last drop of water, with the result that he will come forth pure from offences.`
+            },
+            {
+                id: 14,
+                title: "فضل خصال الفطرة",
+                arabic: `عَنْ عَائِشَةَ رَضِيَ اللَّهُ عَنْهَا قَالَتْ: قَالَ رَسُولُ اللهِ الله : ""عَشْرٌ مِنَ الْفِطْرَةِ: قَصُّ الشَّارِبِ، وَإِعْفَاءُ اللَّحْيَةِ، والسواك، وَاسْتِنْشَاقُ الْمَاءِ، وَغَسْلُ الْبَرَاجِمِ، وَنَتْفُ الْإِبْطِ، وَحَلْقُ الْعَانَةِ، وَانْتِقَاصُ الْمَاءِ ""`,
+                isnad: `رواه مسلم`,
+                translation: `'A'isha reported Allah's Messenger (PBUH) as saying, ""Ten characteristics belong to the religion of Islam: clipping the moustache, letting the beard grow, using the tooth-stick, snuffing up water, cutting the nails, washing the finger joints, plucking the hair under the armpits, shaving the pubes, and intiqas, i.e. cleansing oneself with water.""`
+            },
+            {
+                id: 15,
+                title: "فضل متابعة المؤذن",
+                arabic: `عَنْ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللهِ : ""إِذَا قَالَ الْمُؤَذِّنُ : اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، فَقَالَ أَحَدُكُمْ اللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ، ثُمَّ قَالَ: أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ، قَالَ: أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ، ثُمَّ قَالَأَشْهَدُ : أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ، قَالَ: أَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ، ثُمَّ قَالَ: حَيَّ عَلَى الصَّلَاةِ، قَالَ: لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ، ثُمَّ قَالَ: حَيَّ عَلَى الْفَلَاحِ، قَالَ: لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ، ثُمَّ قَالَ: اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، قَالَ: اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، ثُمَّ قَالَ: لَا إِلَهَ إِلَّا اللَّهُ، قَالَ: لَا إِلَهَ إِلَّا اللَّهُ، مَنْ قَلْبِهِ دَخَلَ الْجَنَّةَ"".`,
+                isnad: `رواه مسلم [385]`,
+                translation: `'Umar reported Allah's Messenger (PBUH) as saying: When the mu'adhdhin says, ""Allah is most great, Allah is most great,"" and one of you makes the response, ""Allah is most great, Allah is most great""; then says, ""I testify that there is no Allah but Allah,"" and he makes the response, ""I testify that there is no Allah but Allah""; then says, ""I testify that Muhammad is Allah's Messenger, and he makes the response, ""I testify that Muhammad is Allah's Messenger; then says, ""Come to prayer,"" and he makes the response, ""There is no might and no power except in Allah""; then says, ""Come to salvation,"" and he makes the response. ""There is no might and no power except in Allah""; then says, ""Allah is most great, Allah is most great,"" and he makes the response, ""Allah is most great, Allah is most great""; then says, ""There is no Allah but Allah,"" and he makes the response, ""There is no Allah but Allah""; if he says this from his heart, he will enter paradise.`
+            },
+            {
+                id: 16,
+                title: "فضل دعاء بعد الأذان",
+                arabic: `عَنْ جَابِرٍ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ الله قَالَ: ""مَنْ قَالَ حِينَ يَسْمَعُ النِّدَاءَ اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ () ، 1وَالصَّلَاةِ الْقَائِمَةِ () 2، آتِ مُحَمَّدًا الْوَسِيلَةَ () 3وَالْفَضِيلَةَ ()4، وَابْعَثْهُ مَقَامًا مَحْمُودًا (5) الَّذِي وَعَدْتَهُ ، حَلَّتْ لَهُ شَفَاعَتِي يَوْمَ الْقِيَامَةِ"".`,
+                isnad: `رواه البخاري [714]`,
+                translation: `Jabir ibn Abdullah reported: The Messenger of Allah, peace and blessings be upon him, said: Whoever hears the call to prayer and says, 'O Allah, Lord of this perfect call and established prayer, give Muhammad the privilege and honor of intercession, and raise him to the praiseworthy status that You have promised him, then my intercession will be allowed for him on the Day of Resurrection.`
+            },
+            {
+                id: 17,
+                title: "فضل السبعة الذين يظلهم الله",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، عَنِ النَّبِيِّ قَالَ: ""سَبْعَةٌ يُظِلُّهُمُ اللَّهُ فِي ظِلْهِ، يَوْمَ لَا ظِلَّ إِلَّا ظِلُّهُ: الْإِمَامُ الْعَادِلُ، وَشَابٌ نَشَأَ فِي عِبَادَةِ رَبِّهِ، وَرَجُلٌ قَلْبُهُ مُعَلَّقٌ فِي الْمَسَاجِدِوَرَجُلَانِ ، تَحَابًا فِي اللَّهِ اجْتَمَعَا عَلَيْهِ وَتَفَرَّقَا عَلَيْهِ، وَرَجُلٌ طَلَبَتُهُ امْرَأَةٌ ذَاتُ مَنْصِبٍ وَجَمَالٍ فَقَالَ: إِنِّي أَخَافُ اللَّهَوَرَجُلٌ، تَصَدَّقَ أَخْفَى حَتَّى لَا تَعْلَمَ شِمَالُهُ مَا تُنْفِقُ يَمِينُهُ، وَرَجُلٌ ذَكَرَ اللَّهَ خَالِيًا فَفَاضَتْ عَيْنَاهُ"".`,
+                isnad: `متفق عليه [البخاري (660)، مسلم (1031)]`,
+                translation: `Abu Huraira reported: The Prophet, peace and blessings be upon him, said: There are seven whom Allah will shade on a day when there is no shade but his. They are a just ruler, a youth who grew up in the worship of Allah, one whose heart is attached to the mosques, two who love each other, meet, and depart from each other for the sake of Allah, a man who is tempted by a beautiful woman of high status but he rejects her, saying, 'I fear Allah, one spends in charity and conceals it such that his right hand does not know what his left hand has given , and one who remembered Allah in private and he wept.`
+            },
+            {
+                id: 18,
+                title: "فضل الصلاة في المسجد النبوي",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ ، أَنَّ النَّبِيَّ الله قَالَ: صَلَاةٌ فِي مَسْجِدِي هَذَا خَيْرٌ مِنْ أَلْفِ صَلَاةٍ فِيمَا سِوَاهُإِلَّا ، الْمَسْجِدَ الْحَرَامَ"".`,
+                isnad: `متفق عليه [البخاري (1190)، مسلم (1394)]`,
+                translation: `Abu Huraira reported Allah's Messenger (PBUH) as saying, ""One prayer in this mosque of mine (i.e. the mosque in Medina) is better than a thousand elsewhere, except the sacred mosque."" (Bukhari and Muslim)`
+            },
+            {
+                id: 19,
+                title: "فضل الصلاة على وقتها وبر الوالدين والجهاد",
+                arabic: `عَنْ عَبْدِ اللَّهِ بْنِ مَسْعُودٍ رَضِيَ اللَّهُ عَنْهُ، قَالَ: سَأَلْتُ النَّبِيُّ الله : أَيُّ الْعَمَلِ أَحَبُّ إِلَى اللَّهِ؟ قَالَ: الصَّلَاةُ عَلَى وَقْتِهَا. قَالَ: ثُمَّ أَيُّ؟ قَالَ: ثُمَّ بِرُّ الْوَالِدَيْنِ"". قَالَ: ثُمَّ أَيُّ؟ قَالَ: ""الْجِهَادُ فِي سَبِيلِ اللَّهِ"". قَالَ: حَدَّثَنِي بِهِنَّ وَلَوْ اسْتَزَدْتُهُ لَزَادَنِي.`,
+                isnad: `متفق عليه [البخاري (٥٢٧)، مسلم (٨٥)]`,
+                translation: `The owner of this house."" he pointed to 'Abdullah's house, ""said, ""I"" Which deed is loved most by Allah?"" He (PBUH) asked the Prophet replied, To offer prayers at their early (very first) stated times. "" Abdullah asked, ""What is the next (in goodness)?"" The Prophet said, ""To be good and dutiful to one's parents,"" Abdullah (PBUH) said, ""To(PBUH) asked, ""What is the next (in goodness)?"" The Prophet participate in Jihad for Allah's Cause."" 'Abdullah added, ""The Prophet narrated to me these three things, and if I had asked more, he(PBUH) would have told me more.`
+            },
+            {
+                id: 20,
+                title: "فضل صلاة الجماعة",
+                arabic: `قال: ""صلاة الجماعة أفضل من صلاة الفذ بسبع وعشرين درجة. "" `,
+                isnad: `متفق عليه`,
+                translation: `The Messenger of Allah(PBUH) said, ""Salat in congregation is twenty-seven times more meritorious than a Salat performed individually.""`
+            },
+            {
+                id: 21,
+                title: "فضل صلاة العشاء والفجر في جماعة",
+                arabic: `عَنْ عُثْمَانَ بْنِ عَفَّانَ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ على الله يَقُولُ: ""مَنْ صَلَّى الْعِشَاءَ فِي جَمَاعَةٍ، فَكَأَنَّمَا قَامَ نِصْفَ اللَّيْلِ، وَمَنْ صَلَّى الصُّبْحَ فِي جَمَاعَةٍ، فَكَأَنَّمَا صَلَّى اللَّيْلَ كُلَّهُ"".`,
+                isnad: `رواه مسلم [656]`,
+                translation: `Uthman bin 'Affan (May Allah be pleased with him) reported: I heard' saying: ""One who performs 'Isha' prayer (PBUH) the Messenger of Allah in congregation, is as if he has performed Salat for half of the night. And one who performs the Fajr prayer in congregation, is as if he has performed Salat the whole night.`
+            },
+            {
+                id: 22,
+                title: "فضل المشي إلى المساجد",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللهِ الله : ""مَنْ تَطَهَّرَ فِي بَيْتِهِ، ثُمَّ مَشَى إِلَى بَيْتٍ مِنْ بُيُوتِ اللَّهِ، لِيَقْضِيَ فَرِيضَةً مِنْ فَرَائِضِ اللَّهِ، كَانَتْ خُطْوَتَاهُ إِحْدَاهُمَا تَحُطُّ خَطِيئَةً، وَالْأُخْرَى تَرْفَعُ دَرَجَةً"".`,
+                isnad: `رواه مسلم [666]`,
+                translation: `Abu Huraira reported: The Messenger of Allah (may peace be upon him) said: He who purified himself in his house, and then he walked to one of the houses of Allah for the sake of performing a Fard (obligatory act) out of the Fara'id (obligatory acts) of Allah, both his steps (would be significant) as one of them would obliterate his sin and the second one would raise his status.`
+            },
+            {
+                id: 23,
+                title: "فضل المشي إلى المساجد (تكرار)",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللهِ الله : ""مَنْ تَطَهَّرَ فِي بَيْتِهِ، ثُمَّ مَشَى إِلَى بَيْتٍ مِنْ بُيُوتِ اللَّهِ، لِيَقْضِيَ فَرِيضَةً مِنْ فَرَائِضِ اللَّهِ، كَانَتْ خُطْوَتَاهُ إِحْدَاهُمَا تَحْطُّ خَطِيئَةً، وَالْأُخْرَى تَرْفَعُ دَرَجَةً"".`,
+                isnad: `رواه مسلم [666]`,
+                translation: `Abu Huraira reported: The Messenger of Allah (may peace be upon him) said: He who purified himself in his house, and then he walked to one of the houses of Allah for the sake of performing a Fard (obligatory act) out of the Fara'id (obligatory acts) of Allah, both his steps (would be significant) as one of them would obliterate his sin and the second one would raise his status.`
+            },
+            {
+                id: 24,
+                title: "فضل الصف الأول في الصلاة",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، عَنِ النَّبِيِّ الله قَالَ: لَوْ تَعْلَمُونَ أَوْ - يَعْلَمُونَ - مَا فِي الصَّفُ الْمُقَدَّمِ، لَكَانَتْ قُرْعَةٌ"".`,
+                isnad: `رواه مسلم [439]`,
+                translation: `Abu Huraira reported: The Messenger of Allah (PBUH) said: If you were to know, or if they were to know, what (excellence) lies in the first rows, there would have been drawing of lots (for filling them); and Ibn Harb said: For (occupying) the first row there would have been drawing of lots.`
+            },
+            {
+                id: 25,
+                title: "فضل انتظار الصلاة",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللهِ صلى الله قَالَ: ""لَا يَزَالُ الْعَبْدُ فِي صَلَاةٍ، مَا كَانَ فِي مُصَلَّاهُ يَنْتَظِرُ الصَّلَاةَوَتَقُولُ ، الْمَلَائِكَةُ: اللَّهُمَّ اغْفِرْ لَهُ، اللَّهُمَّ ارْحَمْهُ، حَتَّى يَنْصَرِفَ أَوْ يُحْدِثُ ()1"".`,
+                isnad: `متفق عليه [البخاري (3229)، مسلم (649)]`,
+                translation: `Abu Hurairah reported the apostle of Aliah (PBUH) as saying The servant (of Allah) is considered to he at prayer so long as he remains at the place of prayer waiting for prayer. The angels say: O Allah, forgive him? O Allah, take mercy on him, until he turns away, or he is defiled. He was asked: what is meant by defilement? He replied: he breaks wind gently or loudly.`
+            },
+            {
+                id: 26,
+                title: "فضل صلاتي الفجر والعصر",
+                arabic: `عَنْ عُمَارَةَ بْنِ رُوَيْبَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللهِ الله يَقُولُ: ""لَنْ يَلِجَ النَّارَ أَحَدٌ صَلَّى قَبْلَ طُلُوعِ الشَّمْسِ، وَقَبْلَ غُرُوبِهَا. يَعْنِي الْفَجْرَ ، وَالْعَصْرَ.`,
+                isnad: `رواه مسلم [634]`,
+                translation: `He who performs Salat (prayers) before the rising of the sun and"" "".before its setting, will not enter the Hell`
+            },
+            {
+                id: 27,
+                title: "فضل رؤية الله في الجنة والحفاظ على الفجر والعصر",
+                arabic: `عَنْ جَرِيرٍ رَضِيَ اللَّهُ عَنْهُ قَالَ: كُنَّا عِنْدَ النَّبِيِّ الله ، فَنَظَرَ إِلَى الْقَمَرِ لَيْلَةَ - يَعْنِي الْبَدْرَ - فَقَالَ: ""إِنَّكُمْ سَتَرَوْنَ رَبَّكُمْ كَمَا تَرَوْنَ هَذَا الْقَمَرَ ، لَا تُضَامُونَ () 2فِي رُؤْيَتِهِ، فَإِنِ اسْتَطَعْتُمْ أَنْ لَا تُغْلَبُوا عَلَى صَلَاةٍ قَبْلَ طُلُوعِ الشَّمْسِ وَقَبْلَ غُرُوبِهَا فَافْعَلُوا"".`,
+                isnad: `متفق عليه`,
+                translation: `Jarir said, ""We were with the Prophet (PBUH) and he looked at the moon--full-moon--and said, 'Certainly you will see your Lord as you see this moon and you will have no trouble in seeing Him. So if you can avoid missing (through sleep or business, etc.) a prayer before the sunrise (Fajr) and a prayer before sunset ('Asr), you must do so.' He then recited Allah's Statement: And celebrate the praises Of your Lord before the rising of the sun and before (its) setting."" (50.39) Isma'il said, ""Offer those prayers and do not miss them.""`
+            },
+            {
+                id: 28,
+                title: "فضل التأمين مع الإمام",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ ، أَنَّ النَّبِيَّ الله قَالَ: ""إِذَا أَمَّنَ الْإِمَامُ فَأَمِّنُوا، فَإِنَّهُ مَنْ وَافَقَ تَأْمِينُهُ تَأْمِينَ الْمَلَائِكَةِ، غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ"".`,
+                isnad: `متفق عليه [البخاري (٧٨٠)، مسلم (٤١٠)]`,
+                translation: `""Say Amen when the imam says it, for if anyone's utterance of Amen synchronises with that of the angels, he will be forgiven his past sins. (Bukhari and Muslim.) In a version he said, ""When the iman says, Not of those with whom Thou art angry nor of those who go astray', say Amen, for if anyone's words synchronise with those of the angels he will be forgiven his past sins"".`
+            },
+            {
+                id: 29,
+                title: "فضل اثنتي عشرة ركعة تطوعا",
+                arabic: `عَنْ أُمِّ حَبِيبَةَ رَضِيَ اللهُ عَنْهَا زَوْجِ النَّبِيِّ الله أَنَّهَا قَالَتْ: سَمِعْتُ رَسُولَ اللَّهِ وَاللَّهُ لا يَقُولُ: ""مَا مِنْ عَبْدٍ مُسْلِمٍ يُصَلِّي لِلَّهِ كُلَّ يَوْمٍ ثِنْتَيْ عَشْرَةَ رَكْعَةً تَطَوُّعًا، غَيْرَ فَرِيضَةٍ، إِلَّا بَنَى اللَّهُ لَهُ بَيْتًا فِي الْجَنَّةِ.`,
+                isnad: `رواه مسلم [728]`,
+                translation: `""A house will be built in paradise for anyone who prays in a day and a night twelve rak'as, four before and two after the noon prayer, two after the sunset prayer, two after the evening prayer, and two before the dawn prayer."" Tirmidhi transmitted it. In a version by Muslim she said she heard Allah's Messenger (PBUH) say, ""If any Muslim prays to Allah twelve voluntary rak'as daily, over and above the obligatory ones, Allah will build a house for him in paradise,""`
+            },
+            {
+                id: 30,
+                title: "فضل صيام المحرم وقيام الليل",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللهِ الله : ""أَفْضَلُ الصِّيَامِ بَعْدَ رَمَضَانَ، شَهْرُ اللَّهِ الْمُحَرَّمُ، وَأَفْضَلُ الصَّلَاةِ بَعْدَ الفَرِيضَةِ، صَلَاةُ اللَّيْلِ"".`,
+                isnad: `رواه مسلم [1163]`,
+                translation: `""The most excellent fast after Ramadan is in Allah's month al-Muharram, and the most excellent prayer after what is prescribed is prayer during the night.""`
+            },
+            {
+                id: 31,
+                title: "فضل الثلث الأخير من الليل",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللهِ الله قَالَ: ""يَنْزِلُ رَبُّنَا تَبَارَكَ وَتَعَالَى كُلَّ لَيْلَةٍ إِلَى السَّمَاءِ الدُّنْيَا حِينَ يَبْقَى ثُلث اللَّيْلِ الْآخِرُ، فَيَقُولُ: مَنْ يَدْعُونِي فَأَسْتَجِيبَ لَهُ، وَمَنْ يَسْأَلْنِي فَأُعْطِيَهُ، وَمَنْ يَسْتَغْفِرُنِي فَأَغْفِرَ لَهُ"".`,
+                isnad: `متفق عليه [البخاري (١١٤٥)، مسلم (٧٥٨)]`,
+                translation: `Abu Huraira reported Allah's Messenger (PBUH) as saying: Our Lord, the Blessed and the Exalted, descends every night to the lowest heaven when one-third of the latter part of the night is left, and says: Who supplicates Me so that I may answer him? Who asks Me so that I may give to him? Who asks Me forgiveness so that I may forgive him?`
+            },
+            {
+                id: 32,
+                title: "فضل الذكر والدعاء عند الاستيقاظ ليلاً",
+                arabic: `عَنْ عُبَادَةَ بْنِ الصَّامِتِ رَضِيَ اللَّهُ عَنْهُ، عَنِ النَّبِيِّ الله قَالَ: ""مَنْ تَعَارَ () 1مِنَ اللَّيْلِ فَقَالَ: لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ ولهُ الحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ ، الْحَمْدُ لِلَّهِ، وَسُبْحَانَ اللَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ، ثُمَّ قَالَ: اللَّهُمَّ اغْفِرْ لِي، أَوْ دَعَا اسْتُجِيبَ لَهُ، فَإِنْ توضاً وَصَلَّى قُبِلَتْ صَلَاتُهُ"".`,
+                isnad: `رواه البخاري [1154]`,
+                translation: `If anyone is disturbed [from sleep] during the night and says, 'There"" is no Allah but Allah alone who has no partner, to Him belongs the kingdom, to Him praise is due, and He is omnipotent; Glory be to Allah; Praise be to Allah; there is no Allah but Allah: Allah is most great; there is no might and no power but in Allah,' then says, 'My Lord, forgive me' (or he said, Then makes supplication), he will receive an answer, and if he performs ablution and prays, his prayer will be accepted.""`
+            },
+            {
+                id: 33,
+                title: "فضل الغسل والطيب يوم الجمعة",
+                arabic: `عَنْ سَلْمَانَ الْفَارِسِي رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ النَّبِيُّ الله : ""لَا يَغْتَسِلُ رَجُلٌ يَوْمَ الْجُمُعَةِوَيَتَطَهَّرُ ، مَا اسْتَطَاعَ مِنْ طُهْرٍ، وَيَدْهِنُ مِنْ دُهْنِهِ (1) ، أَوْ يَمَسُّ مِنْ طِيبِ بَيْتِهِ، ثُمَّ يَخْرُجُ فَلَا يُفَرِّقُ بَيْنَ اثْنَيْنِ، ثُمَّ يُصَلِّي مَا كُتِبَ لَهُ، ثُمَّ يُنْصِتُ إِذَا تَكَلَّمَ الْإِمَامُ، إِلَّا غُفِرَ لَهُ مَا بَيْنَهُ وَبَيْنَ الْجُمُعَةِ الْأُخْرَى"".`,
+                isnad: `رواه البخاري [883]`,
+                translation: `If any man bathes on Friday, purifies himself as much as he can with"" ablution, anoints himself with oil, or puts on a touch of perfume which he has in his house, then goes out and, without squeezing between two men, prays what is prescribed for him, then remains silent when the imam speaks, his sins between that time and the next Friday will *be forgiven him.`
+            },
+            {
+                id: 34,
+                title: "فضل الغسل لصلاة الجمعة",
+                arabic: `عَنْ عَبْدِ اللَّهِ بْنِ عُمَرَ رَضِيَ اللَّهُ عَنْهُمَا ، أَنَّ رَسُولَ اللَّهِ الله قَالَ: ""إِذَا جَاءَ أَحَدُكُمُ الْجُمُعَةَ فَلْيَغْتَسِل"".`,
+                isnad: `متفق عليه [البخاري (٨٧٧)، مسلم (٨٤٤)]`,
+                translation: `""When one of you intends to come for the Friday prayer, he should perform Ghusl""`
+            },
+            {
+                id: 35,
+                title: "فضل التبكير إلى الجمعة",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ ، أَنَّ رَسُولَ اللَّهِ الله قَالَ: مَنِ اغْتَسَلَ يَوْمَ الْجُمُعَةِ غُسْلَ الْجَنَابَةِ، ثُمَّ رَاحَ فَكَأَنَّمَا قَرَّبَ بَدَنَةً، وَمَنْ رَاحَ فِي السَّاعَةِ الثَّانِيَةِ فَكَأَنَّمَا قَرَّبَ بَقَرَةً، وَمَنْ رَاحَ فِي السَّاعَةِ الثَّالِثَةِ فَكَأَنَّمَا قَرَّبَ كَبُشًا أَقْرَنَ، وَمَنْ رَاحَ فِي السَّاعَةِ الرَّابِعَةِ فَكَأَنَّمَا قَرَّبَ دَجَاجَةُ، وَمَنْ رَاحَ فِي السَّاعَةِ الْخَامِسَةِ فَكَأَنَّمَا قَرَّبَ بَيْضَةً، فَإِذَا خَرَجَ الْإِمَامُ حَضَرَتِ الْمَلَائِكَةُ يَسْتَمِعُونَ الذِّكْرَ"".`,
+                isnad: `متفق عليه [البخاري (881) مسلم (850)]`,
+                translation: `He who takes a bath on Friday, like the bath for ceremonial purity,"". and then goes (to the mosque), he is like one who offers a camel as a sacrifice to seek the Pleasure of Allah; and he who comes at the second hour is like one who offers a cow to win the Pleasure of Allah; and he who comes at the third hour is like one who offers a ram with horns (in sacrifice); and he who comes at the fourth hour is like one who offers a hen; and he who comes at the fifth hour is like one who offers an egg. And when the Imam ascends the pulpit, the angels (who write the names of those who come to the mosque before the coming of the Imam) close (their record) in order to listen to the Khutbah.`
+            },
+            {
+                id: 36,
+                title: "فضل الصيام في سبيل الله",
+                arabic: `عَنْ أَبِي سَعِيدٍ الْخُدْرِيِّ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ النَّبِيَّ الله يَقُولُ: ""مَنْ صَامَ يَوْمًا فِي سَبِيلِ اللَّهِ، بَعْدَ اللَّهُ وَجْهَهُ عَنِ النَّارِ سَبْعِينَ خَرِيفًا"".`,
+                isnad: `متفق عليه. [البخاري (٢٨٤٠)، مسلم (١١٥٣)]`,
+                translation: `Every slave of Allah who observes Saum (fasting) for one day for the"" sake of Allah, Allah will draw his face farther from Hell-fire to the extent of a distance to be covered in seventy years.`
+            },
+            {
+                id: 37,
+                title: "فضل صيام ستة أيام من شوال",
+                arabic: `عَنْ أَبِي أَيُّوبَ الْأَنْصَارِي رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ عله الله قَالَ: ""مَنْ صَامَ رَمَضَانَ، ثُمَّ أَتْبَعَهُ سِئًا مِنْ شَوَّالٍ، كَانَ كَصِيَامِ الدَّهْرِ"".`,
+                isnad: `رواه مسلم [1164]`,
+                translation: `""If anyone fasts during Ramadan, then follows it with six days in Shawwal, it will be like a perpetual fast.""`
+            },
+            {
+                id: 38,
+                title: "فضل صيام يوم عرفة وعاشوراء",
+                arabic: `عَنْ أَبِي قَتَادَةَ رَضِيَ اللَّهُ عَنْهُ ، أَنَّ رَسُولَ اللَّهِ الله قَالَ: صِيَامُ يَوْمَ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ، وَالسَّنَةَ الَّتِي بَعْدَهُ، وَصِيَامُ يَوْمٍ عَاشُورَاءَ، أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ"".`,
+                isnad: `رواه مسلم [1162]`,
+                translation: `""Fasting on the Day of Arafah, I hope from Allah, expiates for the sins of the year before and the year after"".`
+            },
+            {
+                id: 39,
+                title: "فضل صيام ثلاثة أيام من كل شهر",
+                arabic: `عَنْ أَبِي قَتَادَةَ الْأَنْصَارِيِّ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ الله صَوْمُ ثَلَاثَةٍ مِنْ كُلِّ شَهْرٍ، وَرَمَضَانَ إِلَى رَمَضَانَ، صَوْمُ الدَّهْرِ"".`,
+                isnad: `رواه مسلم [1162]`,
+                translation: `Three days' fasting every month and of the whole of Ramadan every year is a perpetual fast.`
+            },
+            {
+                id: 40,
+                title: "فضل صيام ثلاثة أيام من كل شهر (2)",
+                arabic: `عَنْ مُعَاذَةَ الْعَدَوِيَّةِ، أَنَّهَا سَأَلَتْ عَائِشَةَ زَوْجَ النَّبِيِّ الله والله : أَكَانَ رَسُولُ اللهِ الا الله يَصُومُ مِنْ كُلِّ شَهْرٍ ثَلَاثَةَ أَيَّامٍ ؟ قَالَتْ: نَعَمْ"". فَقُلْتُ لَهَا: مِنْ أَيِّ أَيَّامِ الشَّهْرِ كَانَ يَصُومُ؟ قَالَتْ: لَمْ يَكُنْ يُبَالِي مِنْ أَيِّ أَيَّامٍ الشَّهْرِ يَصُومُ"".`,
+                isnad: `رواه مسلم [1160]`,
+                translation: `Mu'adha al-'Adawiya said she asked 'A'isha whether Allah's Messenger (PBUH) used to fast three days every month, and she replied that he did. She asked which days in the month he fasted, and she replied that he did not care which days of the month he fasted.`
+            },
+            {
+                id: 41,
+                title: "فضل قراءة القرآن وسورتي البقرة وآل عمران",
+                arabic: `عَنْ أَبِي أُمَامَةَ الْبَاهِلِيِّ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللهِ الله يَقُولُ: ""اقْرَءُوا الْقُرْآنَ، فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ، اقْرَءُوا الزَّهْرَاوَيْنِ الْبَقَرَةَ وَسُورَةَ آلِ عِمْرَانَ، فَإِنَّهُمَا تَأْتِيَانِ يَوْمَ الْقِيَامَةِ، كَأَنَّهُمَا غَمَامَتَانِ، أَوْ كَأَنَّهُمَا غَيَايَتَانِ () 2، أَوْ كَأَنَّهُمَا فِرْقَانِ (3) مِنْ طَيْرٍ صَوَافَ ()4 تُحَاجَّانِ عَنْ أَصْحَابِهِمَا ، اقْرَءُوا سُورَةَ الْبَقَرَةِ فَإِنَّ أَخْذَهَا بَرَكَةً، وَتَرْكَهَا حَسْرَةٌ، وَلَا تَسْتَطِيعُهَا الْبَطَلَةُ ()5.`,
+                isnad: `رواه مسلم [804]`,
+                translation: `Abu Umamah reported: The Messenger of Allah, peace and blessings be upon him, said: Recite the Quran, for on the Day of Resurrection it will come as an intercessor for its reciters. Recite the two brightly illuminated chapters, Surat al-Baqarah and Ali Imran, for on the Day of Resurrection they will come as two clouds, or two shades, or two flocks of birds pleading for their companions. Recite Surat al-Baqarah as there is blessing in it, there is sorrow in leaving it, and the sorcerers cannot defeat it.`
+            },
+            {
+                id: 42,
+                title: "فضل قراءة سورة البقرة في البيوت",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللهِ الله قَالَ: لَا ""تَجْعَلُوا بُيُوتَكُمْ مَقَابِرَ، إِنَّ الشَّيْطَانَ يَنْفِرُ مِنَ الْبَيْتِ الَّذِي تُقْرَأُ فِيهِ سُورَةُ الْبَقَرَةِ"".`,
+                isnad: `رواه مسلم [780]`,
+                translation: `Abu Hurairah (May Allah be pleased with him) reported: I heard the Messenger of Allah (PBUH) saying: ""Do not turn your houses into graveyards. Satan runs away from the house in which Surat Al-Baqarah is recited.""`
+            },
+            {
+                id: 43,
+                title: "فضل آيتي آخر سورة البقرة",
+                arabic: `عَنْ أَبِي مَسْعُودٍ الْبَدْرِي رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللهِ : ""الْآيَتَانِ مِنْ آخِرِ سُورَةِ الْبَقَرَةِ، مَنْ قَرَأَهُمَا فِي لَيْلَةٍ كَفَتاه"".`,
+                isnad: `متفق عليه [البخاري (4008)، مسلم (807)]`,
+                translation: `""He who recites the two Ayat at the end of Surat Al-Baqarah at night, they will suffice him.""`
+            },
+            {
+                id: 44,
+                title: "فضل حفظ عشر آيات من سورة الكهف",
+                arabic: `وعن أبي الدرداء رضي الله عنه أن رسول الله صلى الله عليه وسلم قال: ""من حفظ عشر آيات من أول سورة الكهف عصم من الدجال"" وفي رواية: ""من آخر سورة الكهف"" `,
+                isnad: `رواهما مسلم`,
+                translation: `""Whoever commits to memory the first ten Ayat of the Surat Al-Kahf, will be protected from (the trial of) Ad-Dajjal (Antichrist).""`
+            },
+            {
+                id: 45,
+                title: "فضل قراءة سورة الإخلاص",
+                arabic: `عَنْ أَبِي الدَّرْدَاءِ رَضِيَ اللَّهُ عَنْهُ، عَنِ النَّبِيِّ الله قَالَ: ""يَعْجِزُ أَحَدُكُمْ أَنْ يَقْرَأُ فِي لَيْلَةٍ ثُلُثَ الْقُرْآنِ؟"". قَالُوا: وَكَيْفَ يُقْرَأُ ثُلُثُ الْقُرْآنِ؟ قَالَ: قُلْ هُوَ اللَّهُ أَحَدٌ ، تَعْدِلُ ثُلُثَ الْقُرْآنِ"".`,
+                isnad: `رواه مسلم [811]`,
+                translation: `""Is any of you incapable of reciting a third of the Qur'an in a night?"" On being asked how they could recite a third of the Qur'an he replied. ""Say, He is Allah, One' (Qur'an, 112) is equivalent to a third of the Qur'an."" Muslim transmitted it, and Bukhārī transmitted it from Abū Sa'id.`
+            },
+            {
+                id: 46,
+                title: "فضل أسماء الله الحسنى",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللهِ الله قَالَ: ""إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا، مِائَةً إِلَّا وَاحِدًا ، مَنْ أَحْصَاهَا دَخَلَ الْجَنَّةَ"".`,
+                isnad: `متفق عليه [البخاري (٢٧٣٦)، مسلم (٢٦٧٧)]`,
+                translation: `""Allah had ninety-nine names, one short of a hundered. He who retains them in his memory"" will enter paradise.""`
+            },
+            {
+                id: 47,
+                title: "فضل قول لا إله إلا الله وحده لا شريك له 100 مرة",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ الله قَالَ: ""مَنْ قَالَ: لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، فِي يَوْمِ مِائَةَ مَرَّةٍ، كَانَتْ لَهُ عَدْلَ عَشْرِ رِقَابٍ، وَكُتِبَتْ لَهُ مِائَةُ حَسَنَةٍ، وَمُحِيَتْ عَنْهُ مِائَةُ سَيِّئَةٍ، وَكَانَتْ لَهُ حِرْزًا (1) مِنَ الشَّيْطَانِ يَوْمَهُ ذَلِكَ حَتَّى يُمْسِي، وَلَمْ يَأْتِ أَحَدٌ بِأَفْضَلَ مِمَّا جَاءَ بِهِ، إِلَّا أَحَدٌ عَمِلَ أَكْثَرَ مِنْ ذلك"".`,
+                isnad: `متفق عليه [البخاري (3293)، مسلم (2691)]`,
+                translation: `Abu Huraira reported Allah's Messenger (PBUH) as saying that if anyone says a hundred times in a day, ""There is no Allah but Allah alone who has no partner, to whom dominion belongs, to whom praise is due, who is omnipotent"", he will have a reward equivalent to that for emancipating ten slaves, a hundred blessings recorded for him, a hundred evil deeds obliterated from him; it will be a protection for him from the devil all that day till evening, and no one will bring anything more excellent than he brings, except a man who has done more than he has. (Bukhari and Muslim.)`
+            },
+            {
+                id: 48,
+                title: "فضل قول سبحان الله وبحمده 100 مرة",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ الله قَالَ: ""مَنْ قَالَ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، فِي يَوْمٍ مِائَةِ مَرَّةٍ، حُطَّتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ "" .`,
+                isnad: `متفق عليه [البخاري (٦٤٠٥)، مسلم (٢٦٩١)]`,
+                translation: `""Glory be to Allah, and I begin with praise to Him"", his sins will be removed from him though they are like the foam of the sea. (Bukhari and Muslim.)`
+            },
+            {
+                id: 49,
+                title: "فضل التسبيح بعدد خلق الله",
+                arabic: `عن جويرية أَنَّ النَّبِيَّ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ خَرَجَ مِنْ عِنْدِهَا بُكْرَةً حِينَ صَلَّى الصُّبْحَ وَهِيَ فِي مَسْجِدِهَا ثُمَّ رَجَعَ بَعْدَ أَنْ أَضْحَى وَهِيَ جَالِسَةً قَالَ: «مَا زِلْتِ عَلَى الْحَالِ الَّتِي فَارَقْتُكِ عَلَيْهَا ؟ قَالَتْ: نَعَمْ قَالَ النَّبِيُّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: "" لَقَدْ قُلْتُ بَعْدَكِ أَرْبَعَ كَلِمَاتٍ ثَلَاثَ مَرَّاتٍ لَوْ وُزِنَتْ بِمَا قُلْتِ مُنْذُ الْيَوْمِ لَوَزَنَتُهُنَّ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَاءَ نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ "".`,
+                isnad: `رواه مسلم`,
+                translation: `Juwairiya said that the Prophet (PBUH) went out from her one morning at the time when he prayed the morning prayer while she was in her place of worship. He returned in the forenoon and found her sitting. He asked her if she was still in the same position as that in which he had left her, and when she replied that that was so, he said, ""Since leaving you I have three times said four phrases which, if weighed against all you have said today, would prove to be heavier: Glory be to Allah, and I begin with praise of Him to the number of His creatures, in accordance with His good pleasure, to the weight of His throne and the extent of His words"".`
+            },
+            {
+                id: 50,
+                title: "فضل أحب الكلام إلى الله",
+                arabic: `عَنْ سَمُرَةَ بْنِ جُنْدُبٍ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ لا الله : ""أَحَبُّ الْكَلَامِ إِلَى اللَّهِ أَرْبَعٌ: سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، لَا يَضُرُّكَ بِأَيْهِنَّ بَدَأْتَ"".`,
+                isnad: `رواه مسلم [2137]`,
+                translation: `The most excellent words are four: Glory be to Allah; Praise be to Allah; there is no Allah but Allah; and Allah is most great."" A version has, ""The words dearest to Allah are four: Glory be to Allah; Praise be to Allah; there is no Allah but Allah; and Allah is most great. It does not matter which you say first."" Muslim transmitted it.`
+            },
+            {
+                id: 51,
+                title: "فضل الصلاة على النبي صلى الله عليه وسلم",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ الله قَالَ: ""مَنْ صَلَّى عَلَيَّ وَاحِدَةُ، صَلَّى اللَّهُ عَلَيْهِ عَشْرًا"".`,
+                isnad: `رواه مسلم [408]`,
+                translation: `""If anyone prays once on me, Allah will pray ten times on him.""`
+            },
+            {
+                id: 52,
+                title: "فضل لا حول ولا قوة إلا بالله",
+                arabic: `عَنْ أَبِي مُوسَى الْأَشْعَرِيِّ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ لِي رَسُولُ الله الله : ""أَلَا أَدُلُّكَ عَلَى كَلِمَةٍ مِنْ كُنُوزِ الْجَنَّةِ؟"". قُلْتُ: بَلَى يَا رَسُولَ اللَّهِ، فِدَاكَ أَبِي وَأُمِّي. قَالَ: ""لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ"".`,
+                isnad: `متفق عليه [البخاري (٤٢٠٥)، مسلم (٢٧٠٤)]`,
+                translation: `""Shall I tell you a sentence which is one of the treasures of Paradise"" I said, ""Yes, O Allah's Messenger! Let my father and mother be sacrificed for your sake."" He said, ""It is: There is neither might nor power but with Allah.""`
+            },
+            {
+                id: 53,
+                title: "فضل سيد الاستغفار",
+                arabic: `عَنْ شَدَّادِ بْنِ أَوْسٍ رَضِيَ اللَّهُ عَنْهُ، عَنِ النَّبِي الله قَالَ: ""سَيِّدُ الاسْتِغْفَارِ أَنْ تَقُولَ: اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ (1) لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ. وَمَنْ قَالَهَا مِنَ النَّهَارِ مُوقِنًا بِهَا، فَمَاتَ مِنْ يَوْمِهِ قَبْلَ أَنْ يُمْسِي، فَهُوَ مِنْ أَهْلِ الْجَنَّةِ، وَمَنْ قَالَهَا مِنَ اللَّيْلِ وَهُوَ مُوقِنُ بِهَا، فَمَاتَ قَبْلَ أَنْ يُصْبِحَ، فَهُوَ مِنْ أَهْلِ الْجَنَّةِ"".`,
+                isnad: `رواه البخاري [6306]`,
+                translation: `Shaddad b. Aus reported Allah's Messengers (PBUH) as saying that the best manner of asking pardon is to say, ""O Allah, Thou art my Lord. There is no Allah but Thee. Thou hast created me, and I am Thy servant and hold to Thy covenant and promise as much as I can. I seek refuge in Thee from the evil of what I have done. I acknowledge Thy favour to me, and I acknowledge my sin. Pardon me, for none but Thee pardons sins."" He said that if anyone says it during the day-time with firm belief in it and dies that day before evening, he will be one of those who go to paradise; and if anyone says it during the night with firm belief in it and dies before morning, he will be one of those who go to paradise.`
+            },
+            {
+                id: 54,
+                title: "فضل الدعاء في السجود",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ الله قَالَ: ""أَقْرَبُ مَا يَكُونُ الْعَبْدُ مِنْ رَبِّهِ وَهُوَ سَاجِدٌ، فَأَكْثِرُوا الدُّعَاء"".`,
+                isnad: `رواه مسلم [482]`,
+                translation: `""The nearest a servant comes to his Lord is when he is prostrating himself, so make supplication often.""`
+            },
+            {
+                id: 55,
+                title: "فضل ساعة الإجابة في الليل",
+                arabic: `عَنْ جَابِرٍ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ النَّبِيَّ الله يَقُولُ: ""إِنَّ فِي اللَّيْلِ لَسَاعَةً، لَا يُوَافِقُهَا رَجُلٌ مُسْلِمٌ يَسْأَلُ اللَّهَ خَيْرًا مِنْ أَمْرِ الدُّنْيَا وَالْآخِرَةِ، إِلَّا أَعْطَاهُ إِيَّاهُ، وَذَلِكَ كُلَّ لَيْلَةٍ"".`,
+                isnad: `رواه مسلم [757]`,
+                translation: `""There is an hour during the night at which no Muslim man will ask Allah for good in this world and the next without His giving it to him; and that applies to every night.""`
+            },
+            {
+                id: 56,
+                title: "فضل الدعاء عند سماع صياح الديكة والتعوذ عند نهيق الحمار",
+                arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللهُ عَنْهُ، أَنَّ النَّبِيَّ الله قَالَ: ""إِذَا سَمِعْتُمْ صِيَاحَ الدِّيَكَةِفَاسْأَلُوا ، اللَّهَ مِنْ فَضْلِهِ، فَإِنَّهَا رَأَتْ مَلَكًا، وَإِذَا سَمِعْتُمْ نَهِيقَ الْحِمَارِ فَتَعَوَّذُوا بِاللَّهِ مِنَ الشَّيْطَانِ، فَإِنَّهُ رَأَى شَيْطَانًا"".`,
+                isnad: `متفق عليه [البخاري (3303)، مسلم (2729)]`,
+                translation: `When you hear the cock's crow, ask Allah for His favor upon you for surely it has seen an angel. When you hear the bray of a donkey, seek refuge in Allah from Satan, for surely it has seen a devil.`
+            },
+            {
+                id: 57,
+                title: "فضل دعاء الجماع",
+                arabic: `عَنِ ابْنِ عَبَّاسٍ رَضِيَ اللَّهُ عَنْهُمَا قَالَ: قَالَ النَّبِيُّ الله : لَوْ أَنَّ أَحَدَهُمْ إِذَا أَرَادَ أَنْ يَأْتِيَ أَهْلَهُ قَالَ: بِاسْمِ اللهِ اللَّهُمَّ جَنِّبْنَا الشَّيْطَانَ، وَجَنْبِ الشَّيْطَانَ مَا رَزَقْتَنَا، فَإِنَّهُ إِنْ يُقَدَّرْ بَيْنَهُمَا وَلَدٌ فِي ذَلِكَ، لَمْ يَضُرَّهُ شَيْطَانٌ أَبَدًا"".`,
+                isnad: `متفق عليه [البخاري (6388)، مسلم (1434)]`,
+                translation: `The Prophet (PBUH) said, ""If anyone of you, when intending to have a sexual intercourse with his wife, says: 'Bismillah, Allahumma jannibna-sh-shaitan, wa jannibi-sh-shaitan ma razaqtana, and if the couple are destined to have a child (out of that very sexual relation), then Satan will never be able to harm that child.""`
+            },
+            {
+                id: 58,
+                title: "فضل دعاء المصيبة",
+                arabic: `عَنْ أُمِّ سَلَمَةَ رَضِيَ اللَّهُ عَنْهَا زَوْجِ النَّبِيِّ صلى الله عليه وسلم : قَالَتْ سَمِعْتُ رَسُولَ اللَّهِ صلى الله عليه وسلم يَقُولُ: "مَا مِنْ عَبْدٍ تُصِيبُهُ مُصِيبَةٌ فَيَقُولُ إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ اجِرْنِي فِي مُصِيبَتِي وَاخْلُفْ لِي خَيْرًا مِنْهَا إِلَّا أَجَرَهُ اللَّهُ فِي مُصِيبَتِهِ، وَأَخْلَفَ لَهُ خَيْرًا مِنْهَا.`,
+                isnad: `رواه مسلم [918]`,
+                translation: `If any servant (of Allah) who suffers a calamity says:" We belong to Allah and to Him shall we return; O Allah, reward me for my affliction and give me something better than it in exchange for it," ' Allah will give him reward for affliction, and would give him something better than it in exchange. She (Umm Salama) said: When Abu Salama died. I uttered (these very words) as I was commanded (to do) by the Messenger of Allah (PBUH). So Allah gave me better in exchange than him. i. e. (I was taken as the wife of) the Messenger of Allah (PBUH).`
+            },
+            {
+                  id: 59,
+        title: "فضل ما يكتب للمريض والمسافر",
+        arabic: `عَنْ أَبِي مُوسَى الْأَشْعَرِيِّ رَضِيَ اللَّهُ عَنْهُ : قَالَ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم : "إِذَا مَرِضَ الْعَبْدُ أَوْ سَافَرَ كُتِبَ لَهُ مَا كَانَ يَعْمَلُ مُقِيمًا صَحِيحًا".`,
+        isnad: `رواه البخاري [٢٩٩٦]`,
+        translation: `When a man is ill or on a journey, what he was accustomed to do when staying at home and well will be recorded for him.`
+    },
+    {
+        id: 60,
+        title: "فضل قضاء حوائج المسلمين وتفريج الكربات",
+        arabic: `عَنْ عَبْدِ اللَّهِ بْنِ عَمْرٍو عَنِ النَّبِيِّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ أَنَّهُ قَالَ: "مَنْ كَانَتْ لَهُ حَاجَةٌ إِلَى أَخِيهِ فَلْيَذْهَبْ إِلَيْهِ، وَمَنْ فَرَّجَ عَنْ مُسْلِمٍ كُرْبَةً فَرَّجَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرُبَاتِ يَوْمِ الْقِيَامَةِ، وَمَنْ سَتَرَ مُسْلِمًا سَتَرَهُ اللَّهُ يَوْمَ الْقِيَامَةِ".`,
+        isnad: `متفق عليه [البخاري (٢٤٤٢) مسلم (٢٥٨٠)]`,
+        translation: `Whoever fulfills the needs of his brother, Allah will fulfill his needs; whoever brought him out of the discomforts (out of) a discomfort, Allah will bring him out of the discomforts of the Day of Resurrection, and whoever screened a Muslim, Allah will screen him on the Day of Resurrection.`
+    },
+    {
+        id: 61,
+        title: "فضل الساعي على الأرملة والمسكين",
+        arabic: `حَدَّثَنَا يَحْيَى بْنُ يَزِيدَ، حَدَّثَنَا مَالِكٌ، عَنْ ثَوْرِ بْنِ زَيْدٍ، عَنْ أَبِي الْغَيْثِ، عَنْ أَبِي هُرَيْرَةَ، قَالَ: قَالَ النَّبِيُّ صلى الله عليه وسلم: "الشَّاخِصُ عَلَى الْأَزْمِلَةِ وَالْمِسْكِينُ كَالْمُجَاهِدِ فِي سَبِيلِ اللَّهِ، أَوِ الْقَائِمِ اللَّيْلَ الصَّائِمِ النَّهَارَ".`,
+        isnad: `متفق عليه [البخاري (٦٠٠٧) ، مسلم (٢٩٨٢)]`,
+        translation: `The Prophet (ﷺ) said, "The one who looks after a widow or a poor person is like a Mujahid (warrior) who fights for Allah's Cause, or like him who performs prayers all the night and fasts all the day."`
+    },
+    {
+        id: 62,
+        title: "فضل المتحابين في الله",
+        arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم: "إِنَّ اللَّهَ يُقِيمُ الْقِيَامَةَ، أَيْنَ الْمُتَحَابُّونَ بِجَلَالِي، الْيَوْمَ أُظِلُّهُمْ فِي ظِلِّي، يَوْمَ لَا ظِلَّ إِلَّا ظِلِّي".`,
+        isnad: `رواه مسلم [٢٥٦٦]`,
+        translation: `Messenger of Allah, peace and blessings be upon him, said: Verily, Allah will say on the Day of Resurrection: Where are those who love each other for the sake of My glory? Today, I will shelter them in My shade on a day when there is no shade but mine.`
+    },
+    {
+        id: 63,
+        title: "فضل قتل الوزغ",
+        arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم: "مَنْ قَتَلَ وَزَغًا فِي أَوَّلِ ضَرْبَةٍ كُتِبَتْ لَهُ مِائَةُ حَسَنَةٍ، وَفِي الثَّانِيَةِ دُونَ ذَلِكَ، وَفِي الثَّالِثَةِ دُونَ ذَلِكَ".`,
+        isnad: `رواه مسلم [٢٢٤٠]`,
+        translation: `Abu Huraira reported Allah's Messenger (PBUH) as saying, "If anyone kills a gecko with the first blow a hundred good deeds will be recorded for him, less if he kills it at the second and less still if he kills it at the third." Muslim transmitted it.`
+    },
+    {
+        id: 64,
+        title: "فضل المؤمن القوي",
+        arabic: `عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم: "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ، وَفِي كُلٍّ خَيْرٌ، احْرِصْ عَلَى مَا يَنْفَعُكَ وَاسْتَعِنْ بِاللَّهِ، وَلَا تَعْجَزْ، وَإِنْ أَصَابَكَ شَيْءٌ فَلَا تَقُلْ: لَوْ أَنِّي فَعَلْتُ كَذَا وَكَذَا، وَلَكِنْ قُلْ: قَدَرُ اللَّهِ وَمَا شَاءَ فَعَلَ، فَإِنَّ لَوْ تَفْتَحُ عَمَلَ الشَّيْطَانِ".`,
+        isnad: `رواه مسلم [٢٦٦٤]`,
+        translation: `A strong believer is better and is more lovable to Allah than a weak believer, and there is good in everyone, (but) cherish that which gives you benefit (in the Hereafter) and seek help from Allah and do not lose heart, and if anything (in the form of trouble) comes to you, do not say: If I had not done that, it would not have happened so and so, but say: Allah did that what He had ordained to do and 'your' it opens the (gate) for the Satan.`
+    },
+    {
+        id: 65,
+        title: "فضل المداومة على العمل الصالح",
+        arabic: `عَنْ عَائِشَةَ رَضِيَ اللَّهُ عَنْهَا، أَنَّ النَّبِيَّ صلى الله عليه وسلم قَالَ: "يَا أَيُّهَا النَّاسُ، خُذُوا مِنَ الْأَعْمَالِ مَا تُطِيقُونَ، فَإِنَّ اللَّهَ لَا يَمَلُّ حَتَّى تَمَلُّوا، وَإِنَّ أَحَبَّ الْأَعْمَالِ إِلَى اللَّهِ مَا دَامَ وَإِنْ قَلَّ".`,
+        isnad: `متفق عليه [البخاري (٥٨٦١) ، مسلم (٧٨٢)]`,
+        translation: `O people! Do only those good deeds you can do, for Allah does not get tired (of giving reward) till you get tired, and the best deeds to Allah are the incessant ones though they were few.`
+    }
+        ];
+ const hadithsPerPage = 25;
+        let currentPage = 1;
+        let totalPages; // Will be calculated after hadithsData is loaded
+
+        function displayHadiths(page) {
+            const hadithListDiv = document.getElementById('hadith-list');
+            hadithListDiv.innerHTML = ''; // Clear current Hadiths
+
+            const startIndex = (page - 1) * hadithsPerPage;
+            const endIndex = Math.min(startIndex + hadithsPerPage, hadithsData.length);
+
+            for (let i = startIndex; i < endIndex; i++) {
+                const hadith = hadithsData[i];
+                const hadithDiv = document.createElement('div');
+                hadithDiv.id = `hadith-${hadith.id}`;
+                hadithDiv.className = 'card mt-6';
+                hadithDiv.innerHTML = `
+                    <p class="hadith-number">الحديث رقم: ${hadith.id}</p>
+                    <h3 class="hadith-title">${hadith.title}</h3>
+                    <p class="hadith-text-arabic">${hadith.arabic}</p>
+                    <p class="hadith-isnad">${hadith.isnad}</p>
+                    <div class="translation-toggle" onclick="toggleTranslation(this)">
+                        <p class="click-to-view">Click to view translation</p>
+                        <p class="hadith-text-translation hidden">${hadith.translation}</p>
+                    </div>
+                `;
+                hadithListDiv.appendChild(hadithDiv);
+            }
+            updatePaginationControls();
+        }
+
+        function setupPaginationControls() {
+            const paginationTop = document.getElementById('pagination-controls-top');
+            const paginationBottom = document.getElementById('pagination-controls-bottom');
+            paginationTop.innerHTML = ''; // Clear previous buttons
+            paginationBottom.innerHTML = ''; // Clear previous buttons
+
+            // Calculate totalPages once hadithsData is available
+            totalPages = Math.ceil(hadithsData.length / hadithsPerPage);
+
+            // Function to create and append buttons to a given container
+            const createButtonsForContainer = (container) => {
+                // Create Previous button
+                const prevButton = document.createElement('button');
+                prevButton.textContent = 'السابق';
+                prevButton.className = 'pagination-button';
+                prevButton.onclick = () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayHadiths(currentPage);
+                        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top on page change
+                    }
+                };
+                container.appendChild(prevButton);
+
+                // Create page number buttons
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageNumButton = document.createElement('button');
+                    pageNumButton.textContent = i;
+                    pageNumButton.className = `page-number ${i === currentPage ? 'active' : ''}`;
+                    pageNumButton.onclick = (function(pageNumber) {
+                        return function() {
+                            currentPage = pageNumber;
+                            displayHadiths(currentPage);
+                            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top on page change
+                        };
+                    })(i);
+                    container.appendChild(pageNumButton);
+                }
+
+                // Create Next button
+                const nextButton = document.createElement('button');
+                nextButton.textContent = 'التالي';
+                nextButton.className = 'pagination-button';
+                nextButton.onclick = () => {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        displayHadiths(currentPage);
+                        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top on page change
+                    }
+                };
+                container.appendChild(nextButton);
+            };
+
+            // Create buttons for both top and bottom containers
+            createButtonsForContainer(paginationTop);
+            createButtonsForContainer(paginationBottom);
+
+            updatePaginationControls(); // Initial state update
+        }
+
+        function updatePaginationControls() {
+            const prevButtons = document.querySelectorAll('.pagination-button:first-child');
+            const nextButtons = document.querySelectorAll('.pagination-button:last-child');
+            const pageNumberButtons = document.querySelectorAll('.page-number');
+
+            prevButtons.forEach(button => {
+                button.disabled = currentPage === 1;
+            });
+            nextButtons.forEach(button => {
+                button.disabled = currentPage === totalPages;
+            });
+
+            // Remove 'active' from all page number buttons and then add to the current one
+            pageNumberButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Add 'active' class to buttons matching the current page number
+            document.querySelectorAll(`.page-number[data-page="${currentPage}"]`).forEach(button => {
+                 button.classList.add('active');
+            });
+
+            // Re-select all page number buttons and add 'active' based on textContent
+            document.querySelectorAll('.page-number').forEach(button => {
+                if (parseInt(button.textContent) === currentPage) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        function scrollToHadith() {
+            const hadithNumber = parseInt(document.getElementById('hadith-number-input').value);
+            if (hadithNumber >= 1 && hadithNumber <= hadithsData.length) {
+                const targetPage = Math.ceil(hadithNumber / hadithsPerPage);
+                currentPage = targetPage;
+                displayHadiths(currentPage); // Display the correct page first
+
+                // Wait for Hadiths to render, then scroll
+                setTimeout(() => {
+                    const targetElement = document.getElementById(`hadith-${hadithNumber}`);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        targetElement.style.backgroundColor = '#e6ffe6'; // Light green highlight
+                        setTimeout(() => {
+                            targetElement.style.backgroundColor = ''; // Revert after a short delay
+                        }, 1500);
+                    }
+                }, 100); // Small delay to ensure rendering
+            } else {
+                alert(`الرجاء إدخال رقم حديث صحيح بين 1 و ${hadithsData.length}.`);
+            }
+        }
+
+        function toggleTranslation(element) {
+            const translationText = element.querySelector('.hadith-text-translation');
+            const clickToViewText = element.querySelector('.click-to-view');
+
+            if (translationText.classList.contains('hidden')) {
+                translationText.classList.remove('hidden');
+                clickToViewText.textContent = 'Click to hide translation';
+            } else {
+                translationText.classList.add('hidden');
+                clickToViewText.textContent = 'Click to view translation';
+            }
+        }
+
+        // Initial display on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ensure totalPages is calculated after hadithsData is defined.
+            // This assumes hadithsData is defined globally before this script block runs.
+            if (typeof hadithsData !== 'undefined' && hadithsData.length > 0) {
+                displayHadiths(currentPage);
+                setupPaginationControls();
+            } else {
+                console.error("hadithsData array is not defined or is empty.");
+                // Optionally display a message to the user or hide pagination controls
+            }
+
+
+            // Event listener for the "Go to Hadith ID" button
+            const goToHadithButton = document.getElementById('go-to-hadith-button');
+            if (goToHadithButton) {
+                goToHadithButton.addEventListener('click', scrollToHadith);
+            }
+        });
+    </script>
+</body>
+</html>

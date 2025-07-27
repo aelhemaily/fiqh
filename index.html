@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دراسة وفقه - فهرس المواضيع</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Amiri', serif; /* Arabic font for better readability */
+            background-color: #f8ffef; /* Lighter background for index */
+            color: #343a40;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .header {
+            background-color: #4CAF50; /* Green header */
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        .nav-link {
+            padding: 0.75rem 1.5rem;
+            background-color: #66BB6A; /* Lighter green for nav links */
+            color: white;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        .nav-link:hover {
+            background-color: #4CAF50;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 0.75rem;
+        }
+        .card-link {
+            display: block;
+            padding: 0.75rem;
+            background-color: #007bff;
+            color: white;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .card-link:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .nav-link {
+                width: calc(100% - 1rem); /* Full width minus margin */
+                margin: 0.5rem 0;
+            }
+            .grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1 class="text-4xl font-bold">دراسة وفقه</h1>
+        <p class="text-xl mt-2">موسوعة الأحاديث النبوية الشريفة</p>
+    </div>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="flex flex-wrap justify-center mb-8">
+            <a href="index.html" class="nav-link">فهرس المواضيع</a>
+            <a href="fadael.html" class="nav-link">فضائل الأعمال</a>
+            <!-- Add more links as pages are added -->
+        </nav>
+
+        <!-- Homepage / Index (Fahras) -->
+        <section id="index" class="mb-8">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">فهرس المواضيع</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Topic Card: فضائل الأعمال -->
+                <div class="card">
+                    <h3 class="card-title">فضائل الأعمال</h3>
+                    <p class="text-gray-600 mb-4">أحاديث نبوية عن فضل الأعمال الصالحة.</p>
+                    <a href="fadael.html" class="card-link">عرض الأحاديث</a>
+                </div>
+
+                <!-- Topic Card: قصة الخلق -->
+                <div class="card">
+                    <h3 class="card-title">قصة الخلق</h3>
+                    <p class="text-gray-600 mb-4">قصة خلق الكون والإنسان.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: تفسير جزء عم -->
+                <div class="card">
+                    <h3 class="card-title">تفسير جزء عم</h3>
+                    <p class="text-gray-600 mb-4">تفسير مفصل لسور جزء عم.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: علامات الساعة -->
+                <div class="card">
+                    <h3 class="card-title">علامات الساعة</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن علامات يوم القيامة.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: غزوات الإسلام -->
+                <div class="card">
+                    <h3 class="card-title">غزوات الإسلام</h3>
+                    <p class="text-gray-600 mb-4">تاريخ وأحداث الغزوات النبوية.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: بعث الرسول -->
+                <div class="card">
+                    <h3 class="card-title">بعث الرسول</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن بعثة النبي صلى الله عليه وسلم.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: الهجرة -->
+                <div class="card">
+                    <h3 class="card-title">الهجرة</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن هجرة النبي صلى الله عليه وسلم.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: يوم القيامة ومراحله -->
+                <div class="card">
+                    <h3 class="card-title">يوم القيامة ومراحله</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن يوم القيامة وأهواله.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: وصف النار -->
+                <div class="card">
+                    <h3 class="card-title">وصف النار</h3>
+                    <p class="text-gray-600 mb-4">أحاديث تصف النار وعذابها.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: وصف الجنة -->
+                <div class="card">
+                    <h3 class="card-title">وصف الجنة</h3>
+                    <p class="text-gray-600 mb-4">أحاديث تصف الجنة ونعيمها.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: الشيطان وصفاته -->
+                <div class="card">
+                    <h3 class="card-title">الشيطان وصفاته</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن الشيطان وصفاته.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: علم الغيب والاستدراج -->
+                <div class="card">
+                    <h3 class="card-title">علم الغيب والاستدراج</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن علم الغيب والاستدراج.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: مواقف للصحابي -->
+                <div class="card">
+                    <h3 class="card-title">مواقف للصحابي</h3>
+                    <p class="text-gray-600 mb-4">مواقف من حياة الصحابة الكرام.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: الاسراء والمعراج -->
+                <div class="card">
+                    <h3 class="card-title">الاسراء والمعراج</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن رحلة الإسراء والمعراج.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: قصص الأنبياء -->
+                <div class="card">
+                    <h3 class="card-title">قصص الأنبياء</h3>
+                    <p class="text-gray-600 mb-4">قصص الأنبياء والمرسلين.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: ضبط الصلاة -->
+                <div class="card">
+                    <h3 class="card-title">ضبط الصلاة</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن كيفية أداء الصلاة.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: النوافل وقيام الليل -->
+                <div class="card">
+                    <h3 class="card-title">النوافل وقيام الليل</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن فضل النوافل وقيام الليل.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: أزواج الرسول -->
+                <div class="card">
+                    <h3 class="card-title">أزواج الرسول</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن أزواج النبي صلى الله عليه وسلم.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+
+                <!-- Topic Card: أشياء حلال تحسبها حرام والعكس -->
+                <div class="card">
+                    <h3 class="card-title">أشياء حلال تحسبها حرام والعكس</h3>
+                    <p class="text-gray-600 mb-4">أحاديث عن أمور حلال وحرام.</p>
+                    <span class="text-gray-500">قريباً...</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="footer">
+            <p>&copy; 2024 دراسة وفقه. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+</body>
+</html>
